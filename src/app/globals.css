@@ -18,10 +18,50 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(to bottom right, #4CAF50, #2196F3);;
+}
+/* globals.css */
+.header-initial {
+  background-color: #f3f4f6;
+ /* Replace with the initial background color for the header */
+}
+
+/* Global CSS or in your component's CSS module */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Use a z-index greater than other elements to keep the header on top */
+  background-color: rgba(255, 255, 255, 0.95); /* Set the background color with some opacity */
+  /* Add any other styling properties you want for your header */
+  height: 100px; 
+}
+/* globals.css */
+@keyframes liftUp {
+  0% {
+    transform: translateY(100px); /* Move the element 200px down (adjust as needed) */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.transition-opacity {
+  transition-property: opacity;
+  transition-duration: 0.3s;
+}
+.logo-animation {
+  animation: loopAnimation 5s ease-in-out infinite;
+}
+
+@keyframes loopAnimation {
+  0%, 100% {
+    transform: translate(0, 0) scale(1.2);
+  }
+  50% {
+    transform: translate(100px, 100px) scale(1.2);
+  }
 }

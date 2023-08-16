@@ -1,8 +1,13 @@
+'use client'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-
+import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Spinner from './components/Spinner';
 const inter = Inter({ subsets: ['latin'] })
+
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,9 +19,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+      <motion.div
+          initial={{ opacity: 0, y: 200 }} // Initial animation state (opacity: 0 for fade-in effect, y: 200 for lifting from bottom)
+          animate={{ opacity: 1, y: 0 }}   // Animation state to transition to (opacity: 1 for full visibility, y: 0 for lifting to original position)
+          transition={{ duration: 0.5 }}   // Transition duration
+        >
+          {children}
+          </motion.div>
+        
+        </body>
     </html>
   )
 }
