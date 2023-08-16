@@ -9,8 +9,6 @@ Welcome to PredictoChain, a comprehensive web application that integrates variou
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 PredictoChain is a versatile web application that harnesses machine learning and data analysis techniques to provide predictions, classifications, sentiment analysis, and more. It brings together different modules, each catering to different areas, and empowers users with insights and predictions.
