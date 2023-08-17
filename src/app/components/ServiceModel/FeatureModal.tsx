@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import HomeFortune from "./HomeFortune";
-import { X } from "react-feather";
 import AniClassify from "./AniClassify";
 import Sentix from "./Sentix";
 
