@@ -1,6 +1,6 @@
 # PredictoChain
 
-Welcome to PredictoChain, a comprehensive web application that integrates various prediction and analysis tools into a single platform. This project includes modules like HomeFortune, MedicoGnize, AniClassify, Sentix, and CryptoRush, each serving a unique purpose in prediction, analysis, and entertainment.
+Welcome to PredictoChain, a comprehensive web application that integrates various prediction and analysis tools into a single platform. This project includes modules like HomeFortune, MedicoGnize, AniClassify, Sentix, CryptoRush and AI-Semantic Search, each serving a unique purpose in prediction, analysis, and entertainment.
 
 ## Table of Contents
 - [Introduction](#introduction)
