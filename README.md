@@ -28,7 +28,9 @@ PredictoChain is a versatile web application that harnesses machine learning and
 - Node.js and npm
 - Django
 - TensorFlow
-- ...
+- Numpy
+- sklearn
+- Universal sentence encoder model
 
 ### Installation
 1. Clone this repository:
