@@ -27,16 +27,22 @@ animal_class_id_prefix = "n0"
 animal_class_id_start = 2084071
 animal_class_id_end = 2617172
 
-# sentiment_keywords = ['angry', 'negative', 'neutral', 'positive', 'happy']
+def getDatasetAndEmbeddings():
+    # Define the path to the text file containing AI-related sentences
+    file_path = r"C:\Users\Administrator\Documents\semanticDataset.txt"
 
-# def calculate_cosine_similarity(embedding1, embedding2):
-#     similarity = cosine_similarity([embedding1], [embedding2])
-#     return similarity[0][0]
+    # Read sentences from the text file
+    with open(file_path, "r", encoding="utf-8") as file:
+        dataset = file.readlines()
 
-# def predict_sentiment(input_embedding):
-#     similarity_scores = [calculate_cosine_similarity(input_embedding, use_model([keyword])[0]) for keyword in sentiment_keywords]
-#     predicted_sentiment_index = np.argmax(similarity_scores)
-#     return sentiment_keywords[predicted_sentiment_index]
+    # Preprocess sentences by removing newline characters
+    dataset = [sentence.strip() for sentence in dataset]
+
+    # Load the embedded sentence
+    loaded_embeddings = np.load(r"C:\Users\Administrator\Desktop\Icog Project\predictochain\predictoBackend\sentence_embeddings.model.npy")
+    
+    return dataset, loaded_embeddings
+
 
 @csrf_exempt
 def aniclassify(request):
@@ -70,24 +76,6 @@ def aniclassify(request):
 
     return JsonResponse({'error': 'Invalid request method'})
 
-# @csrf_exempt
-# def sentix(request):
-#     if request.method == 'POST':
-#         # Check if the request contains text
-#         text = request.POST.get('text', '')
-
-#         # Perform sentiment analysis using the Universal Sentence Encoder
-#         if text:
-#             sentiment_embedding = use_model([text])[0]
-            
-#             predicted_sentiment = predict_sentiment(sentiment_embedding)
-            
-#             return JsonResponse({'sentiment': predicted_sentiment})
-#         else:
-#             return JsonResponse({'error': 'No text provided'})
-
-#     return JsonResponse({'error': 'Invalid request method'})
-
 @csrf_exempt
 def sentix(request):
     if request.method == 'POST':
@@ -116,3 +104,33 @@ def sentix(request):
             return JsonResponse({'error': 'No text provided'})
 
     return JsonResponse({'error': 'Invalid request method'})
+
+@csrf_exempt
+def semanticSearch(request):
+    print("got inside semantic search endpoint")
+    if request.method == 'POST':
+        print("yes the method is post")
+        user_query = request.POST.get('text', '')
+        if user_query:
+            # Preprocess user query and encode it into an embedding
+            query_embedding = use_model([user_query])[0]
+            dataset, loaded_embeddings = getDatasetAndEmbeddings()
+
+            # Calculate cosine similarity between query embedding and loaded embeddings
+            similarity_scores = cosine_similarity([query_embedding], loaded_embeddings)[0]
+
+            # Combine the sentences and similarity scores
+            ranked_sentences = sorted(zip(dataset, similarity_scores), key=lambda x: x[1], reverse=True)
+
+            # Prepare response data
+            response_data = [
+                {"sentence": sentence, "similarity_score": score.item()} for sentence, score in ranked_sentences[:5]
+            ]
+            print(response_data)
+
+            return JsonResponse({"results": response_data})
+        else:
+            print("no user query received")
+            return JsonResponse({"error": "No query provided"})
+
+    return JsonResponse({"error": "Invalid request method"})

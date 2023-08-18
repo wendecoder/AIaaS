@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import HomeFortune from "./HomeFortune";
 import AniClassify from "./AniClassify";
 import Sentix from "./Sentix";
+import SemanticSearch from "./SemSearch";
 
 interface FeatureModalProps {
   activeFeature: string | null;
@@ -18,6 +19,8 @@ const FeatureModal: FC<FeatureModalProps> = ({ activeFeature, onClose }) => {
         return <AniClassify />;
       case "sentix":
         return <Sentix />
+      case "semsearch":
+        return <SemanticSearch />
       // Add cases for other features
       default:
         return null;

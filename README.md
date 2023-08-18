@@ -1,4 +1,4 @@
-# PredictoChain - Your Project's Name
+# PredictoChain
 
 Welcome to PredictoChain, a comprehensive web application that integrates various prediction and analysis tools into a single platform. This project includes modules like HomeFortune, MedicoGnize, AniClassify, Sentix, and CryptoRush, each serving a unique purpose in prediction, analysis, and entertainment.
 
@@ -19,6 +19,7 @@ PredictoChain is a versatile web application that harnesses machine learning and
 - **AniClassify**: Classifying animal images using machine learning algorithms.
 - **Sentix**: Analyzing sentiment of text content using Natural Language Processing.
 - **CryptoRush**: Interactive ADA price prediction game.
+- **AI-Semantic Search**: AI related search based on semantic search
 
 ## Getting Started
 
@@ -31,7 +32,7 @@ PredictoChain is a versatile web application that harnesses machine learning and
 
 ### Installation
 1. Clone this repository:
-`git clone https://github.com/yourusername/predictochain.git`
+`git clone https://github.com/wendecoder/IcogProject.git`
 
 2. Navigate to the project directory:
 `cd predictochain`

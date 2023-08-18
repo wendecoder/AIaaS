@@ -3,7 +3,7 @@ import numpy as np
 import tensorflow as tf
 
 #load embeddings of the dataset
-loaded_embeddings  = np.load(r"C:\Users\Administrator\Desktop\Icog Project\sentence_embeddings.model.npy")
+loaded_embeddings  = np.load(r"C:\Users\Administrator\Desktop\Icog Project\predictochain\predictoBackend\sentence_embeddings.model.npy")
 
 # Path to the downloaded model directory on your local computer
 model_path = r"C:\Users\Administrator\Documents\uninversal"

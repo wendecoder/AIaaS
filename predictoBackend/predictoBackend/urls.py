@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('classify/', views.aniclassify, name='aniclassify'),
     path('sentix/', views.sentix, name='sentix'),
+    path('semsearch/', views.semanticSearch, name='semanticSearch'),
 ]
