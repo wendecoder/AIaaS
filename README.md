@@ -19,7 +19,7 @@ PredictoChain is a versatile web application that harnesses machine learning and
 - **AniClassify**: Classifying animal images using machine learning algorithms.
 - **Sentix**: Analyzing sentiment of text content using Natural Language Processing.
 - **CryptoRush**: Interactive ADA price prediction game.
-- **AI-Semantic Search**: AI related search based on semantic search
+- **AI-Semantic Search**: AI related search based on semantic search.
 
 ## Getting Started
 
@@ -35,6 +35,7 @@ PredictoChain is a versatile web application that harnesses machine learning and
 `git clone https://github.com/wendecoder/IcogProject.git`
 
 2. Navigate to the project directory:
+`cd IcogProject`
 `cd predictochain`
 
 3. Install Python dependencies:
