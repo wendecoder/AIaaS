@@ -1,6 +1,6 @@
 # PredictoChain
 
-Welcome to PredictoChain, a comprehensive web application that integrates various prediction and analysis tools into a single platform. This project includes modules like HomeFortune, MedicoGnize, AniClassify, Sentix, CryptoRush and AI-Semantic Search, each serving a unique purpose in prediction, analysis, and entertainment.
+Welcome to PredictoChain, a comprehensive web application that integrates various prediction and analysis tools into a single platform. This project includes modules like MedicoGnize, AniClassify, Sentix, CryptoRush and AI-Semantic Search, each serving a unique purpose in prediction, analysis, and entertainment.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -14,7 +14,6 @@ Welcome to PredictoChain, a comprehensive web application that integrates variou
 PredictoChain is a versatile web application that harnesses machine learning and data analysis techniques to provide predictions, classifications, sentiment analysis, and more. It brings together different modules, each catering to different areas, and empowers users with insights and predictions.
 
 ## Features
-- **HomeFortune**: Predicting home prices with advanced regression models.
 - **MedicoGnize**: Detecting diseases through image classification using deep learning.
 - **AniClassify**: Classifying animal images using machine learning algorithms.
 - **Sentix**: Analyzing sentiment of text content using Natural Language Processing.
@@ -40,12 +39,12 @@ PredictoChain is a versatile web application that harnesses machine learning and
 `cd IcogProject`
 `cd predictochain`
 
-3. Install Python dependencies:
+3. Install JavaScript dependencies:
+`npm install`
+
+4. Install Python dependencies:
 `cd predictoBackend`
 `pip install -r requirements.txt`
-
-4. Install JavaScript dependencies:
-`npm install`
 
 
 ## Usage
