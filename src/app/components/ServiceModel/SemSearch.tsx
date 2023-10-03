@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useBalance } from '../../context/BalanceContext';
+import { toast } from 'react-toastify';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
-const SemanticSearch: React.FC = () => {
+interface SemanticSearchProps {
+  onClose: () => void;
+}
+
+const SemanticSearch: React.FC<SemanticSearchProps> = ({onClose}) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<{ sentence: string; similarity_score: number }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { userBalance, updateUserBalance } = useBalance();
+  const [error, setError] = useState<string | null>(null);
+
+  const {data: session} = useSession();
+  const userEmail = session?.user?.email ?? ''; 
 
   const fetchResults = async () => {
     setIsLoading(true);
@@ -22,6 +35,41 @@ const SemanticSearch: React.FC = () => {
         const data = await response.json();
         console.log(data);
         setResults(data.results);
+        try{
+          const formData = new FormData();
+          formData.append('userEmail', userEmail)
+          formData.append('userQuery', query);
+          const listOfResults = JSON.stringify(data.results);
+          formData.append('results', listOfResults);
+
+          const response = await axios.post(`/api/services/semsearch`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+          })
+
+          if(response.data.message){
+            console.log('Inserted data successfully')
+          }
+        
+        }
+        catch(error){
+          console.error('An error occurred while uploading:', error);
+          setError('An error occurred while uploading');
+        }
+        // Update the user balance
+        try {
+          // Deduct the appropriate amount from the user's balance
+          const deductionAmount = 10; // Adjust this as needed
+          await updateUserBalance(userEmail, deductionAmount);
+  
+          // Show a success toast notification with the deducted amount
+          toast.success(`Deducted ${deductionAmount} ETB from your balance`);
+        } catch (error) {
+          // Handle any errors that occur during balance update
+          console.error('Error updating balance:', error);
+          setError('Failed to update balance');
+        }
       } else {
         console.error('API request failed');
       }
@@ -32,9 +80,6 @@ const SemanticSearch: React.FC = () => {
     }
   };
 
-//   useEffect(() => {
-//     fetchResults();
-//   }, [query]);
 
   return (
     <div className="max-w-md mx-auto p-4">
@@ -71,6 +116,23 @@ const SemanticSearch: React.FC = () => {
     </div>
   ))}
 </div>
+{error && (
+          <p className="mt-4 text-red-500">{error}</p>
+        )}
+
+        {/* Display user balance */}
+        {userBalance !== null && (
+          <div className="mt-4">
+            <p className="font-semibold">User Balance:</p>
+            <p className="font-semibold rounded-md text-white bg-black w-32 p-5">{userBalance} PCT</p>
+          </div>
+        )}
+<button
+          className="w-full mt-2 bg-gray-300 text-gray-700 py-2 rounded-lg"
+          onClick={onClose}
+        >
+          Close
+        </button>
     </div>
   );
 };
