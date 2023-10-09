@@ -1,12 +1,15 @@
 import os
 import io
 import tensorflow as tf
+from PIL import Image
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
 from keras.preprocessing import image
+from keras.models import load_model
+import cv2
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 nltk.download('vader_lexicon')
@@ -18,7 +21,26 @@ animal_model = VGG16(weights='imagenet')
 # Path to the downloaded model directory on your local computer
 model_path = r"C:\Users\Administrator\Documents\uninversal"
 
+# Define a dictionary to map label numbers to label names
+DB_label_names = {
+    0: 'No DR',
+    1: 'Mild',
+    2: 'Moderate',
+    3: 'Severe',
+    4: 'Proliferative DR'
+}
 
+SC_label_names = {
+    0: 'MEL(Melanoma (Highly cancerous))',    # Melanoma (Highly cancerous)
+    1: 'NV(Melanocytic nevus (Not cancerous))',     # Melanocytic nevus (Not cancerous)
+    2: 'BCC(Basal cell carcinoma (Cancerous))',    # Basal cell carcinoma (Cancerous)
+    3: 'AK(Actinic keratosis (Precancerous))',     # Actinic keratosis (Precancerous)
+    4: 'BKL(Benign keratosis-like lesions (Not cancerous))',    # Benign keratosis-like lesions (Not cancerous)
+    5: 'DF(Dermatofibroma (Usually not cancerous))',     # Dermatofibroma (Usually not cancerous)
+    6: 'VASC(Vascular lesions (Varies in cancerousness))',   # Vascular lesions (Varies in cancerousness)
+    7: 'SCC(Squamous cell carcinoma (Cancerous))',    # Squamous cell carcinoma (Cancerous)
+    8: 'UNK(Unknown (Uncertain cancerousness))'     # Unknown (Uncertain cancerousness)
+}
 # Load the model using TensorFlow Hub
 use_model = tf.saved_model.load(model_path)
 
@@ -134,3 +156,97 @@ def semanticSearch(request):
             return JsonResponse({"error": "No query provided"})
 
     return JsonResponse({"error": "Invalid request method"})
+
+@csrf_exempt
+def medicognize(request):
+    IMAGE_SIZE = [331, 331]
+    
+    if request.method == 'POST':
+        print(request.FILES)
+        print(request.POST)
+        imageFile = request.FILES['image']
+        imageCategory = request.POST.get('type', '')
+
+        if imageCategory == 'Diabetic Retinopathy Detection':
+            model = load_model(r"C:\Users\Administrator\Documents\best_model.h5")
+            if imageFile:
+                # Read the image data from the InMemoryUploadedFile
+                image_data = imageFile.read()
+                
+                # Decode the image using PIL
+                image = Image.open(io.BytesIO(image_data))
+                
+                # Convert the image array to 8-bit unsigned integer data type
+                image = tf.image.convert_image_dtype(image, tf.uint8)
+
+                # Set the static shape of the image tensor
+                # image.set_shape([None, None, 3])   Assuming 3 channels for RGB images
+                
+                # Apply image enhancement preprocessing using OpenCV
+                def preprocess_image(image):
+                    img_array = image.numpy()
+                    img_array_gray = cv2.cvtColor(img_array, cv2.COLOR_RGB2GRAY)  # Convert to grayscale
+                    img_array_eq = cv2.equalizeHist(img_array_gray)  # Apply histogram equalization
+                    img_array_eq_rgb = cv2.cvtColor(img_array_eq, cv2.COLOR_GRAY2RGB)  # Convert back to RGB
+                    # Ensure pixel values are within the expected range (0-255)
+                    img_array_eq_rgb = np.clip(img_array_eq_rgb, 0, 255)
+                    # Normalize the image to the range [0, 1] and convert to TensorFlow tensor
+                    normalized = tf.convert_to_tensor(img_array_eq_rgb / 255.0, dtype=tf.float32)
+                    return normalized
+
+                image = tf.py_function(preprocess_image, [image], tf.float32)
+                
+                # Convert to float32 and normalize to [0, 1]
+                image = tf.image.convert_image_dtype(image, tf.float32)
+                
+                # Set the static shape of the image tensor
+                image.set_shape([None, None, 3])  # Assuming 3 channels for RGB images
+                
+                # Resize the image to the defined size
+                image = tf.image.resize(image, IMAGE_SIZE)
+
+                # Add a batch dimension with size 1
+                image = tf.expand_dims(image, axis=0)
+
+                # Print the shape of the image tensor
+                print("Shape of the preprocessed image:", image.shape)
+
+                prediction = model.predict(image)
+                prediction_idx = np.argmax(prediction, axis=-1)
+                print(prediction_idx[0])
+                labeled_prediction = DB_label_names[prediction_idx[0]]
+                return JsonResponse({"prediction": labeled_prediction})
+            
+        elif imageCategory == 'Skin Cancer Detection':
+            model = load_model(r"D:\best_model.h5")
+            if imageFile:
+                # Read the image data from the InMemoryUploadedFile
+                image_data = imageFile.read()
+                
+                # Decode the image using PIL
+                image = Image.open(io.BytesIO(image_data))
+
+                # Convert to float32 and normalize to [0, 1]
+                normalized = tf.image.convert_image_dtype(image, tf.float32) / 255.0
+
+                # Resize the image to the defined size
+                image = tf.image.resize(normalized, IMAGE_SIZE)
+
+                # Add a batch dimension with size 1
+                image = tf.expand_dims(image, axis=0)
+
+                # Print the shape of the image tensor
+                print("Shape of the preprocessed image:", image.shape)
+
+                prediction = model.predict(image)
+                prediction_idx = np.argmax(prediction, axis=-1)
+                print(prediction_idx[0])
+                labeled_prediction = SC_label_names[prediction_idx[0]]
+                return JsonResponse({"prediction": labeled_prediction})
+
+        else:
+                print("no user query received")
+                return JsonResponse({"error": "No query provided"})
+        
+    return JsonResponse({'error': 'Invalid request method'})
+    

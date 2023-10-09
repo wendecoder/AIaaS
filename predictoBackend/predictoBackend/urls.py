@@ -23,4 +23,5 @@ urlpatterns = [
     path('classify/', views.aniclassify, name='aniclassify'),
     path('sentix/', views.sentix, name='sentix'),
     path('semsearch/', views.semanticSearch, name='semanticSearch'),
+    path('medicognize/', views.medicognize, name='medicognize')
 ]

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import IceWidget from "../IceWidget";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 
 const Header = () => {
@@ -55,7 +56,7 @@ const Header = () => {
 <div className='flex items-center justify-center mt-5 mb-10'>
   <button
     onClick={() => {
-      router.push('/Spinner'); // Replace 'UserPage' with the actual path to your UserPage component
+      router.push('/LoginAndSignup')// Replace 'UserPage' with the actual path to your UserPage component
     }}
     className='px-6 py-3 text-lg font-bold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 mr-5'
   >
@@ -63,7 +64,7 @@ const Header = () => {
   </button>
   <button
     onClick={() => {
-      router.push('/UserPage'); // Replace 'UserPage' with the actual path to your UserPage component
+      router.push('/LoginAndSignup') // Replace 'UserPage' with the actual path to your UserPage component
     }}
     className='px-6 py-3 text-lg font-bold text-white bg-green-500 mr-5 rounded-lg shadow-md hover:bg-green-600'
   >

@@ -65,3 +65,28 @@ body {
     transform: translate(100px, 100px) scale(1.2);
   }
 }
+
+.transition-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  transition: height 0.8s ease-in-out; /* Apply a smooth height transition */
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none; /* Disable interaction for inactive content */
+  transition: opacity 0.8s ease-in-out;
+}
+
+/* Apply styles for the active content */
+.active {
+  opacity: 1;
+  pointer-events: auto; /* Enable interaction for active content */
+}

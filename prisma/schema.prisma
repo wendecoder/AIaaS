@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id       Int      @id @default(autoincrement())
+  username String
+  email    String   @unique
+  password String
+  balance  Int
+  avatar   String?
+  lastSpinnedTime DateTime?
+  
+  homefortunes   HomeFortune[]
+  medicognizes   Medicognize[]
+  aniclassifies  AniClassify[]
+  sentixes       Sentix[]
+  cryptorushes   CryptoRush[]
+  aIsemanticsearches AIsemanticSearch[]
+}
+
+model HomeFortune {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  numberOfRooms  Int
+  totalAreaCovered Float
+  location       String
+  proximity      String
+  result         String
+  
+  user           User      @relation(fields: [userId], references: [id])
+}
+
+model Medicognize {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  diseaseType    String
+  diseaseImage   String
+  result         String
+  
+  user           User      @relation(fields: [userId], references: [id])
+}
+
+model AniClassify {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  animalImage    String
+  result         String
+  
+  user           User      @relation(fields: [userId], references: [id])
+}
+
+model Sentix {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  sentence       String
+  result         String
+  
+  user           User      @relation(fields: [userId], references: [id])
+}
+
+model CryptoRush {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  gameId         String
+  betAmount      Float
+  betTime        DateTime
+  result         String
+  
+  user           User      @relation(fields: [userId], references: [id])
+}
+
+model AIsemanticSearch {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  userQuery      String
+  results        String
+  
+  user           User      @relation(fields: [userId], references: [id])
+}
+
