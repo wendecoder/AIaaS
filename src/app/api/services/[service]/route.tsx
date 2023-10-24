@@ -22,7 +22,7 @@ export async function POST(request: Request, { params }: { params: { service: st
     console.log("Entered the services page");
     try {
         // const router = useRouter();
-        const service: string = params.service;
+        const service = params.service;
         console.log(service);
       // Insert data into the Prisma database based on the service
       switch (service) {

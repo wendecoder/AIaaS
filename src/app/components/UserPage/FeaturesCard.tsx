@@ -33,8 +33,8 @@ const router = useRouter();
         };
       }, [])
     return(
-<section className={`pt-10 lg:pt-[120px] pb-10 lg:pb-20 bg-[#F3F4F6] ${scrolled && !activeFeature ? 'mt-24' : ''}`}>
-   <div className="container">
+<section className={`pt-10 lg:pt-[120px] pb-10 lg:pb-20 bg-gradient-to-r from-blue-900 to-blue-300 w-full h-full ${scrolled && !activeFeature ? 'mt-24' : ''}`}>
+   <div className="container ml-28">
         <motion.p 
         initial={{y:200}}
         whileInView={{y: [0, 50, 0], transition: {duration: 1.5, ease: 'easeInOut'}}}
@@ -43,7 +43,7 @@ const router = useRouter();
           initial={{ y: 200 }} // Initial animation state (opacity: 0 for fade-in effect, y: 200 for lifting from bottom)
           whileInView={{y: 0 }}   // Animation state to transition to (opacity: 1 for full visibility, y: 0 for lifting to original position)
           transition={{ duration: 0.8 }}   // Transition duration
-          className="flex flex-wrap ml-10 mt-20"
+          className="flex flex-wrap mt-20 justify-evenly"
         >
          <motion.div 
          initial={{ y: 200 }} // Initial animation state (opacity: 0 for fade-in effect, y: 200 for lifting from bottom)
