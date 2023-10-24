@@ -4,24 +4,65 @@ import tensorflow as tf
 from PIL import Image
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import keras
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
 from keras.preprocessing import image
 from keras.models import load_model
+import matplotlib.pyplot as plt
 import cv2
 import nltk
+from keras.applications.inception_v3 import InceptionV3, preprocess_input, decode_predictions
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from tensorflow_hub import KerasLayer
 nltk.download('vader_lexicon')
 
 
+# Load the pre-trained InceptionV3 model (you can choose a different model if needed)
+def load_classification_model():
+    model = load_model(r"C:\Users\Administrator\Downloads\Compressed\out\best_model.h5")
+    return model
+
+# Function to classify an image
+def classify_image(imageFile):
+    IMAGE_SIZE = [331, 331]
+
+    # Load the pre-trained InceptionV3 model
+    model = load_classification_model()
+
+    image_data = imageFile.read()
+
+    # Reset the file pointer to the beginning
+    imageFile.seek(0)
+                
+    img = image.load_img(io.BytesIO(image_data), target_size=(331, 331))
+    img_array = image.img_to_array(img)
+    img_array = preprocess_input(img_array)
+    img_array = img_array.reshape((1, img_array.shape[0], img_array.shape[1], img_array.shape[2]))
+
+    # Print the shape of the image tensor
+    print("Shape of the preprocessed image:", img_array.shape)
+
+    prediction = model.predict(img_array)
+    prediction_idx = np.argmax(prediction, axis=-1)
+    print(prediction_idx[0])
+    labeled_prediction = Input_label_names[prediction_idx[0]]
+    return labeled_prediction
+
 # Load the pre-trained VGG16 model
-animal_model = VGG16(weights='imagenet')
+animal_model = InceptionV3(weights='imagenet')
 
 # Path to the downloaded model directory on your local computer
 model_path = r"C:\Users\Administrator\Documents\uninversal"
 
 # Define a dictionary to map label numbers to label names
+Input_label_names = {
+    0: 'Retina',
+    1: 'Skin',
+    2: 'Other'
+}
+
 DB_label_names = {
     0: 'No DR',
     1: 'Mild',
@@ -76,7 +117,7 @@ def aniclassify(request):
         image_data = image_file.read()
 
         # Load and preprocess the image
-        img = image.load_img(io.BytesIO(image_data), target_size=(224, 224))
+        img = image.load_img(io.BytesIO(image_data), target_size=(299, 299))
         img_array = image.img_to_array(img)
         img_array = preprocess_input(img_array)
         img_array = img_array.reshape((1, img_array.shape[0], img_array.shape[1], img_array.shape[2]))
@@ -168,6 +209,9 @@ def medicognize(request):
         imageCategory = request.POST.get('type', '')
 
         if imageCategory == 'Diabetic Retinopathy Detection':
+            retina_image_classification = classify_image(imageFile)  # Implement this function to classify the image
+            if retina_image_classification != 'Retina':
+                return JsonResponse({"error": "Invalid image for Diabetic Retinopathy Detection"})
             model = load_model(r"C:\Users\Administrator\Documents\best_model.h5")
             if imageFile:
                 # Read the image data from the InMemoryUploadedFile
@@ -218,27 +262,22 @@ def medicognize(request):
                 return JsonResponse({"prediction": labeled_prediction})
             
         elif imageCategory == 'Skin Cancer Detection':
-            model = load_model(r"D:\best_model.h5")
+            skin_lesion_classification = classify_image(imageFile)  # Implement this function to classify the image
+            if skin_lesion_classification != 'Skin':
+                return JsonResponse({"error": "Invalid image for Skin Cancer Detection"})
+            model = load_model(r"D:\skin_cancer_best_model.h5")
             if imageFile:
                 # Read the image data from the InMemoryUploadedFile
                 image_data = imageFile.read()
-                
-                # Decode the image using PIL
-                image = Image.open(io.BytesIO(image_data))
-
-                # Convert to float32 and normalize to [0, 1]
-                normalized = tf.image.convert_image_dtype(image, tf.float32) / 255.0
-
-                # Resize the image to the defined size
-                image = tf.image.resize(normalized, IMAGE_SIZE)
-
-                # Add a batch dimension with size 1
-                image = tf.expand_dims(image, axis=0)
+                img = keras.preprocessing.image.load_img(io.BytesIO(image_data), target_size=(331, 331))
+                img_array = keras.preprocessing.image.img_to_array(img)
+                img_array = preprocess_input(img_array)
+                img_array = img_array.reshape((1, img_array.shape[0], img_array.shape[1], img_array.shape[2]))
 
                 # Print the shape of the image tensor
-                print("Shape of the preprocessed image:", image.shape)
+                print("Shape of the preprocessed image:", img_array.shape)
 
-                prediction = model.predict(image)
+                prediction = model.predict(img_array)
                 prediction_idx = np.argmax(prediction, axis=-1)
                 print(prediction_idx[0])
                 labeled_prediction = SC_label_names[prediction_idx[0]]
