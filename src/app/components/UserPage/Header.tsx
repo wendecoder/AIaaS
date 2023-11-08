@@ -49,7 +49,7 @@ const user = session?.user;
         });
 
         const apiResponse = response.data;
-        console.log(apiResponse);
+        // console.log(apiResponse);
         if (apiResponse !== null) {
           setUserData(apiResponse);
           console.log(userData);
@@ -60,6 +60,7 @@ const user = session?.user;
             password: "", // Empty password for external logins
             avatar: user?.image // Corrected 'avator' to 'avatar'
           };
+          console.log(userInfo);
           try {
             const createUserResponse = await axios.post('/api/user', userInfo, {
               headers: {
