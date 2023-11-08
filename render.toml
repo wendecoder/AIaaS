@@ -1,0 +1,6 @@
+build:
+  - name: Node.js
+    version: 18
+  - name: Build Script
+    shell: bash
+    env: {}
