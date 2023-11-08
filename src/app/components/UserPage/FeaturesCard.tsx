@@ -152,7 +152,7 @@ const router = useRouter();
                whileInView={{y: 0, transition: {duration: 1, ease: 'easeInOut'}}}
                whileHover={{scale: 1.1, transition: {duration: 0.3, ease: 'easeIn'}}}
                className="text-base text-body-color leading-relaxed mb-7">
-                  Discover the magic of AI and image recognition through AniClassify! Witness how AI identifies animals in images, demonstrating the capabilities of machine learning. This interactive feature highlights AI's ability to comprehend visual content.
+                  Discover the magic of AI and image recognition through AniClassify! Witness how AI identifies animals in images, demonstrating the capabilities of machine learning. This interactive feature highlights AI&rsquo;s ability to comprehend visual content.
                   </motion.p>
                   <motion.a
                   initial={{opacity: 0}}
