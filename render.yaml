@@ -1,6 +1,6 @@
 build:
   - name: Node.js
-    version: 18
+    version: 16
   - name: Build Script
     shell: bash
     env: {}
