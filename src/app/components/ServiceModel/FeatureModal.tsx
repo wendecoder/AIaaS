@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import HomeFortune from "./HomeFortune";
 import AniClassify from "./AniClassify";
 import Sentix from "./Sentix";
 import SemanticSearch from "./SemSearch";
@@ -14,8 +13,6 @@ const FeatureModal: FC<FeatureModalProps> = ({ activeFeature, onClose }) => {
   // Determine which content to display based on the active feature
   const renderContent = () => {
     switch (activeFeature) {
-      case "homeFortune":
-        return <HomeFortune onClose={onClose} />;
       case "aniclassify":
         return <AniClassify onClose={onClose} />;
       case "sentix":

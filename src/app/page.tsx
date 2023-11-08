@@ -6,7 +6,7 @@ import Spinner from './components/Spinner';
 import LandingPage from './landingPage/page';
 import UserPage from './UserPage/page';
 import RootLayout from './layout';
-import HomeFortunePredictor from './ServiceModeal/HomeFortune';
+
 
 export default function Home() {
 
