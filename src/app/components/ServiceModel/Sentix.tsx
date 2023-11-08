@@ -71,12 +71,12 @@ const Sentix: React.FC<SentixProps> = ({ onClose }) => {
           }
           try {
             // Deduct the appropriate amount from the user's balance
-            const deductionAmount = 10; // Adjust this as needed
+            const deductionAmount = 50; // Adjust this as needed
             await updateUserBalance(userEmail, deductionAmount);
     
 
             // Show a success toast notification with the deducted amount
-            toast.success(`Deducted ${deductionAmount} ETB from your balance`);
+            toast.success(`Deducted ${deductionAmount} PCT from your balance`);
           } catch (error) {
             // Handle any errors that occur during balance update
             console.error('Error updating balance:', error);

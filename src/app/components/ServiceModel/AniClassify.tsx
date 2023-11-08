@@ -4,8 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useBalance } from '../../context/BalanceContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import useFetchUserBalance from '../../customHooks/useFetchUserBalance';
-import useUpdateUserBalance from '../../customHooks/useUpdateUserBalance';
+
 
 interface AniClassifyProps {
   onClose: () => void;
@@ -79,11 +78,11 @@ const AniClassify: React.FC<AniClassifyProps> = ({ onClose }) => {
         // Update the user balance
         try {
           // Deduct the appropriate amount from the user's balance
-          const deductionAmount = 10; // Adjust this as needed
+          const deductionAmount = 50; // Adjust this as needed
           await updateUserBalance(userEmail, deductionAmount);
   
           // Show a success toast notification with the deducted amount
-          toast.success(`Deducted ${deductionAmount} ETB from your balance`);
+          toast.success(`Deducted ${deductionAmount} PCT from your balance`);
         } catch (error) {
           // Handle any errors that occur during balance update
           console.error('Error updating balance:', error);
