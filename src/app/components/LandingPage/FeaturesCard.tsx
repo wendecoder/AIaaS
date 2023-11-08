@@ -1,10 +1,13 @@
 'use client'
 import React from "react";
 import { motion } from "framer-motion";
+import Router from "next/navigation";
 const FeaturesCard = () => {
+
+   const router = Router;
     return(
 <section className="pt-10 lg:pt-[120px] pb-10 lg:pb-20 bg-[#F3F4F6]">
-   <div className="container ml-28">
+   <div className="container ml-10">
         <motion.p 
         initial={{y:200}}
         whileInView={{y: [0, 50, 0], transition: {duration: 1.5, ease: 'easeInOut'}}}
@@ -36,7 +39,7 @@ const FeaturesCard = () => {
                whileInView={{x: 0, transition: {duration: 0.8, ease: 'easeInOut'}}}
                whileHover={{scale: 1.1, transition: {duration: 0.3, ease: 'easeIn'}}}>
                      <a
-                        href="javascript:void(0)"
+                        href="/UserPage"
                         className="
                         font-semibold
                         text-dark text-xl
@@ -100,7 +103,7 @@ const FeaturesCard = () => {
                whileInView={{x: 0, transition: {duration: 0.8, ease: 'easeInOut'}}}
                whileHover={{scale: 1.1, transition: {duration: 0.3, ease: 'easeIn'}}}>
                      <a
-                        href="javascript:void(0)"
+                        href="/UserPage"
                         className="
                         font-semibold
                         text-dark text-xl
@@ -127,7 +130,7 @@ const FeaturesCard = () => {
                   <motion.a
                   initial={{opacity: 0}}
                   whileInView={{opacity: 1, transition: {duration: 2}}}
-                     href="javascript:void(0)"
+                     href="/UserPage"
                      className="
                      inline-block
                      py-2
@@ -164,7 +167,7 @@ const FeaturesCard = () => {
                whileInView={{x: 0, transition: {duration: 0.8, ease: 'easeInOut'}}}
                whileHover={{scale: 1.1, transition: {duration: 0.3, ease: 'easeIn'}}}>
                      <a
-                        href="javascript:void(0)"
+                        href="/UserPage"
                         className="
                         font-semibold
                         text-dark text-xl
@@ -191,7 +194,7 @@ const FeaturesCard = () => {
                   <motion.a
                   initial={{opacity: 0}}
                   whileInView={{opacity: 1, transition: {duration: 2}}}
-                     href="javascript:void(0)"
+                     href="/UserPage"
                      className="
                      inline-block
                      py-2
@@ -228,7 +231,7 @@ const FeaturesCard = () => {
                whileInView={{x: 0, transition: {duration: 0.8, ease: 'easeInOut'}}}
                whileHover={{scale: 1.1, transition: {duration: 0.3, ease: 'easeIn'}}}>
                      <a
-                        href="javascript:void(0)"
+                        href="/UserPage"
                         className="
                         font-semibold
                         text-dark text-xl
@@ -292,7 +295,7 @@ const FeaturesCard = () => {
                whileInView={{x: 0, transition: {duration: 0.8, ease: 'easeInOut'}}}
                whileHover={{scale: 1.1, transition: {duration: 0.3, ease: 'easeIn'}}}>
                      <a
-                        href="javascript:void(0)"
+                        href="/UserPage"
                         className="
                         font-semibold
                         text-dark text-xl

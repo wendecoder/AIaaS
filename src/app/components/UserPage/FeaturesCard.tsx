@@ -34,7 +34,7 @@ const router = useRouter();
       }, [])
     return(
 <section className={`pt-10 lg:pt-[120px] pb-10 lg:pb-20 bg-gradient-to-r from-blue-900 to-blue-300 w-full h-full ${scrolled && !activeFeature ? 'mt-24' : ''}`}>
-   <div className="container ml-28">
+   <div className="container ml-10">
         <motion.p 
         initial={{y:200}}
         whileInView={{y: [0, 50, 0], transition: {duration: 1.5, ease: 'easeInOut'}}}
